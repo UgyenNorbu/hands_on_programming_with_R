@@ -3,10 +3,10 @@ library(devtools)
 
 cards <- read_csv("data/deck.csv")
 
-setup <- function(){
+setup <- function(df){
     shuffle <- function(){
         random <- sample(1:52, size = 52)
-        assign("cards", cards[random, ], envir = globalenv())
+        assign("cards", df[random, ], envir = globalenv())
     }
     
     deal <- function(df) {
@@ -17,6 +17,9 @@ setup <- function(){
     list(shuffle_out = shuffle, deal_out = deal)
 }
 
+deck <- setup(cards)
+deal <- deck$deal_out
+shuffle <- deck$shuffle_out
 shuffle()
 deal(cards)
-setup()
+
