@@ -29,8 +29,18 @@ score <- function(symbols){
 
 play <- function(){
     symbols <- get_symbols()
-    print(symbols)
-    score(symbols)
+    prize <- score(symbols)
+    attr(prize, "symbol_attr") <- symbols
+    prize
 }
 
-str(play)
+slot_display <- function(prize){ 
+    # extract symbols
+    symbols <- attr(prize, "symbols")
+    
+    # collapse symbols into single string
+    symbols <- paste(symbols, collapse = " ")
+    
+    # combine symbol with prize as a regular expression \n is regular expression for     new line (i.e. return or enter) string <- paste(symbols, prize, sep = "\n$")         display regular expression in console without quotes
+    cat(string)
+}
