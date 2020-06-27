@@ -36,11 +36,23 @@ play <- function(){
 
 slot_display <- function(prize){ 
     # extract symbols
-    symbols <- attr(prize, "symbols")
+    symbols <- attr(prize, "symbol_attr")
     
     # collapse symbols into single string
     symbols <- paste(symbols, collapse = " ")
     
-    # combine symbol with prize as a regular expression \n is regular expression for     new line (i.e. return or enter) string <- paste(symbols, prize, sep = "\n$")         display regular expression in console without quotes
+    # combine symbol with prize as a regular expression \n is regular expression for     new line (i.e. return or enter) 
+    string <- paste(symbols, prize, sep = "\n$")         
+    
+    # display regular expression in console without quotes
     cat(string)
+}
+
+print.slots <- function(x, ...) { 
+    slot_display(x)
+}
+
+play <- function() {
+    symbols <- get_symbols()
+    structure(score(symbols), symbols = symbols, class = "slots")
 }
