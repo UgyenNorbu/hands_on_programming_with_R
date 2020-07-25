@@ -13,13 +13,13 @@ score <- function(symbols){
     if (same) {
         payouts <- c("DD" = 100, "7" = 80, "BBB" = 40, "BB" = 25, 
                      "B" = 10,"C" = 10,"0" = 0)
-        prize <- unname(payouts[symbols[1]])
+        prize <- unname(payouts[symbols[1]]) #unname returns a copy of an object with the names attribute removed.
     } else if (all(bars)){
         prize <- 5
     } else {
         cherries <- sum(symbols == "C")
         payouts <- c(0, 2, 5)
-        prize <- payouts[cherries + 1]
+        prize <- payouts[cherries + 1] # subsetting the vector 'payouts
     }
     
     # Adjust prize for diamonds
@@ -30,29 +30,26 @@ score <- function(symbols){
 play <- function(){
     symbols <- get_symbols()
     prize <- score(symbols)
-    attr(prize, "symbol_attr") <- symbols
-    prize
+    structure(prize, symbols = symbols, class = "slots")
 }
 
 slot_display <- function(prize){ 
     # extract symbols
-    symbols <- attr(prize, "symbol_attr")
+    symbols <- attr(prize, "symbol")
     
     # collapse symbols into single string
     symbols <- paste(symbols, collapse = " ")
     
-    # combine symbol with prize as a regular expression \n is regular expression for     new line (i.e. return or enter) 
-    string <- paste(symbols, prize, sep = "\n$")         
+    # combine symbol with prize as a regular expression \n is regular expression for new line (i.e. return or enter) 
+    string <- paste(symbols, prize, sep = "\nBTN ")         
     
     # display regular expression in console without quotes
     cat(string)
 }
 
+# Using S3 method to print the desired slot_display without having to call it everytime
 print.slots <- function(x, ...) { 
     slot_display(x)
 }
 
-play <- function() {
-    symbols <- get_symbols()
-    structure(score(symbols), symbols = symbols, class = "slots")
-}
+play()
