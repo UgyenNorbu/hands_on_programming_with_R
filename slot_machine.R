@@ -5,10 +5,7 @@ get_symbols <- function() {
     sample(icons, size = 3, replace = TRUE, 
            prob = c(0.03, 0.03, 0.06, 0.1, 0.25, 0.01, 0.52))
 }
-a <- get_symbols()
-score(a)
-a
-str(a)
+
 score <- function(symbols){
     # Identify cases
     same <- length(unique(symbols)) == 1
@@ -126,3 +123,17 @@ combos <- combos %>%
     mutate(exp_val_wild = prob*prize_wild)
 
 sum(combos$exp_val_wild)
+
+# ESTIMATNG PAYOUT --------------------------------------------------------------
+play_wild <- function(){
+    symbols <- get_symbols()
+    prize <- score_wild(symbols)
+    structure(prize, symbols = symbols, class = "slots")
+}
+
+winnings <- vector(length = 10000000)
+
+for (i in 1:length(winnings)){
+    winnings[i] <- play_wild()
+}
+mean(winnings)
